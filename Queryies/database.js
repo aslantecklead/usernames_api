@@ -10,7 +10,7 @@ const pool = mysql.createPool({
     database: process.env.MYSQL_DATABASE,
 });
 
-async function getAllNotes() {
+export async function getAllNames() {
     try {
         const [rows] = await pool.query('SELECT * FROM Usernames');
         return rows;
@@ -20,4 +20,15 @@ async function getAllNotes() {
     }
 }
 
-export default getAllNotes;
+export async function addNewName(username, registeredAt) {
+    try {
+        const [result] = await pool.query(
+            'INSERT INTO Usernames (Username, RegisteredAt) VALUES (?, ?)',
+            [username, registeredAt]
+        );
+        return result;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
