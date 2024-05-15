@@ -1,7 +1,9 @@
 import express from 'express';
+import cors from 'cors';
 import usernamesRouter from './Queryies/requests.js';
 
 const app = express();
+app.use(cors());
 
 app.use('/', usernamesRouter);
 
