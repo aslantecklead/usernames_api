@@ -32,3 +32,13 @@ export async function addNewName(username, registeredAt) {
         throw err;
     }
 }
+
+export async function deleteAllNames() {
+    try {
+        const [result] = await pool.query('DELETE FROM Usernames');
+        return result;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
