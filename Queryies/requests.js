@@ -1,5 +1,5 @@
 import express from 'express';
-import { addNewName, getAllNames } from './database.js';
+import {addNewName, getAllNames, dropAll} from './database.js';
 
 const router = express.Router();
 
@@ -17,6 +17,17 @@ router.post('/addName', async (req, res) => {
     try {
         const { username, registeredAt } = req.body;
         const result = await addNewName(username, registeredAt);
+        res.json(result);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+
+router.delete('/deleteAll', async (req, res) => {
+    try {
+        const result = await dropAll();
         res.json(result);
     } catch (err) {
         console.error(err);

@@ -20,12 +20,24 @@ export async function getAllNames() {
     }
 }
 
-export async function addNewName(username, registeredAt) {
+export async function dropAll() {
+    try {
+        const [result] = await pool.query('DELETE FROM Usernames');
+        console.log(result);
+        return result;
+    } catch (err) {
+        console.error(err);
+        throw err;
+    }
+}
+
+export async function addNewName(Username, RegisteredAt) {
     try {
         const [result] = await pool.query(
             'INSERT INTO Usernames (Username, RegisteredAt) VALUES (?, ?)',
-            [username, registeredAt]
+            [Username, RegisteredAt]
         );
+        console.log(result);
         return result;
     } catch (err) {
         console.error(err);
