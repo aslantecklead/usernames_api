@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: NamesList
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - apps_network
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - apps_network
+    depends_on:
+      - db
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1234
+      MYSQL_DATABASE: NamesList
+    networks:
+      - apps_network
+    depends_on:
+      - db
+
+networks:
+  apps_network:
+    external:
+      name: apps_network
